@@ -19,13 +19,13 @@ import qualified Data.HashMap.Strict as H
 -- output at various nodes in the tree.
 --
 data Builder =
-    Id
-  | At Text Builder
-  | Attr Text
-  | Attrs [Text]
-  | Map Builder
-  | Index Int Builder
-  | Obj (H.HashMap Text Builder)
+    Id                -- ^ Pass input directly as output
+  | At Text Builder   -- ^ Move to value in current object
+  | Attr Text         -- ^ Get value in current object
+  | Attrs [Text]      -- ^ Filter current object by keys
+  | Map Builder       -- ^ Map over input array
+  | Index Int Builder -- ^ Get value at index of current array
+  | Obj (H.HashMap Text Builder) -- ^ Produce object with given keys
 
 -- | Generates new Aeson 'Value' guided by a 'Builder'
 --
