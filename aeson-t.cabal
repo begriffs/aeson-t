@@ -7,7 +7,7 @@ License:                MIT
 License-File:           LICENSE
 Synopsis:               Transform JSON
 Description:
-  Provides a DSL to succinctly transforms one JSON document to another.
+  Provides a DSL to succinctly transform one JSON document to another.
 Cabal-Version:          >= 1.10
 Build-Type:             Simple
 
