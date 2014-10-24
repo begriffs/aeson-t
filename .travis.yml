@@ -1,37 +1,32 @@
-env:
- - GHCVER=7.6.3
- - GHCVER=7.8
+language: haskell
 
-before_install:
- - sudo add-apt-repository -y ppa:hvr/ghc
- - sudo apt-get update
- - sudo apt-get install cabal-install-1.18 ghc-$GHCVER
- - sudo apt-get install happy-1.19.3
- - export PATH=/opt/ghc/$GHCVER/bin:/opt/happy/1.19.3/bin:$PATH
+ghc:
+  - 7.6
+  - 7.8
 
 install:
- - cabal-1.18 update
- - cabal-1.18 install --only-dependencies --enable-tests --enable-benchmarks --force-reinstalls
+ - cabal update
+ - cabal install --only-dependencies --enable-tests --enable-benchmarks --force-reinstalls
 
 script:
  # -v2 provides useful information for debugging
- - cabal-1.18 configure --enable-tests --enable-benchmarks -v2
+ - cabal configure --enable-tests --enable-benchmarks -v2
 
  # this builds all libraries and executables
  # (including tests/benchmarks)
- - cabal-1.18 build
+ - cabal build
 
- - cabal-1.18 test
- - cabal-1.18 check
+ - cabal test
+ - cabal check
 
  # tests that a source-distribution can be generated
- - cabal-1.18 sdist
+ - cabal sdist
 
  # check that the generated source-distribution can be built & installed
- - export SRC_TGZ=$(cabal-1.18 info . | awk '{print $2 ".tar.gz";exit}') ;
+ - export SRC_TGZ=$(cabal info . | awk '{print $2 ".tar.gz";exit}') ;
    cd dist/;
    if [ -f "$SRC_TGZ" ]; then
-      cabal-1.18 install "$SRC_TGZ";
+      cabal install "$SRC_TGZ";
    else
       echo "expected '$SRC_TGZ' not found";
       exit 1;
