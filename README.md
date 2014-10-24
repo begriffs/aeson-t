@@ -1,21 +1,4 @@
-# data-aeson-transform
+Transform JSON objects
 
-TODO: Write description here
-
-## Installation
-
-TODO: Write installation instructions here
-
-## Usage
-
-TODO: Write usage instructions here
-
-## How to run tests
-
-```
-cabal configure --enable-tests && cabal build && cabal test
-```
-
-## Contributing
-
-TODO: Write contribution instructions here
+For examples and documentation, see the [hackage
+page](http://hackage.haskell.org/package/aeson-t).

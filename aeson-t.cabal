@@ -6,6 +6,7 @@ Category:               Data
 License:                MIT
 License-File:           LICENSE
 Synopsis:               Transform JSON
+Homepage:               https://github.com/begriffs/aeson-t
 Description:
   Provides a succinct DSL to transform one JSON document to another.
 Cabal-Version:          >= 1.10
