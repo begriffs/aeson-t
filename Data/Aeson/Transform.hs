@@ -105,4 +105,4 @@ transform (Merge a b)   x            = case (transform a x, transform b x) of
 -- > Merge (Attr "foo") (Attr "bar")
 -- >
 -- > -- { foo: { a:1, b:2 }, bar: { b:3, c:4 } }
--- > -- => { a:1, b:3, c:4 }
+-- > -- => { a:1, b:2, c:4 }
