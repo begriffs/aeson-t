@@ -76,7 +76,7 @@ transform (Merge a b)   x            = case (transform a x, transform b x) of
 --
 -- > Map $ Attr "foo"
 -- >
--- > -- [{ foo:1, foo:2 }] => [1, 2]
+-- > -- [{ foo:1 }, { foo:2 }] => [1, 2]
 --
 -- Extract indices
 --
