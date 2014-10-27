@@ -14,49 +14,41 @@ main = hspec spec
 spec :: Spec
 spec =
   describe "transform" $ do
-    context "Id" $ do
-      it "leaves objects unchanged" $ do
-        let obj = [aesonQQ| { foo: 1, bar: 2 }|]
-        transform Id obj `shouldBe` obj
-      it "leaves arrays unchanged" $ do
-        let arr = [aesonQQ| [1,2] |]
-        transform Id arr `shouldBe` arr
-    context "At" $
+    context "at" $
       it "moves builder deeper" $ do
-        let obj = [aesonQQ| { foo: { bar: { baz: 1 }}} |]
-        transform (At "foo" $ At "bar" Id) obj `shouldBe` [aesonQQ| { baz: 1 } |]
-    context "AtIndex" $
+        let o = [aesonQQ| { foo: { bar: { baz: 1 }}} |]
+        (at "foo" $ at "bar" id) o `shouldBe` [aesonQQ| { baz: 1 } |]
+    context "atIndex" $
       it "moves builder deeper" $ do
-        let obj = [aesonQQ| [ [ 1, 2 ] ] |]
-        transform (AtIndex 0 $ AtIndex 1 Id) obj `shouldBe` [aesonQQ| 2 |]
-    context "Index" $
+        let o = [aesonQQ| [ [ 1, 2 ] ] |]
+        (atIndex 0 $ atIndex 1 id) o `shouldBe` [aesonQQ| 2 |]
+    context "index" $
       it "moves builder into array" $ do
         let arr = [aesonQQ| [{a:1}, {a:2}, {a:7}] |]
-        transform (Index 1) arr `shouldBe` [aesonQQ| {a:2} |]
-    context "Attr" $
+        index 1 arr `shouldBe` [aesonQQ| {a:2} |]
+    context "attr" $
       it "extracts a value" $ do
-        let obj = [aesonQQ| {a:1, b:2} |]
-        transform (Attr "a") obj `shouldBe` [aesonQQ| 1 |]
-    context "Keep" $ do
+        let o = [aesonQQ| {a:1, b:2} |]
+        attr "a" o `shouldBe` [aesonQQ| 1 |]
+    context "keep" $ do
       it "filters objects by keys" $ do
-        let obj = [aesonQQ| {a:1, b:2, c:3} |]
-        transform (Keep ["a", "b"]) obj `shouldBe` [aesonQQ| {a:1, b:2} |]
+        let o = [aesonQQ| {a:1, b:2, c:3} |]
+        keep ["a", "b"] o `shouldBe` [aesonQQ| {a:1, b:2} |]
       it "ignores undiscovered keys" $ do
-        let obj = [aesonQQ| {a:1, b:2, c:3} |]
-        transform (Keep ["a", "b", "z"]) obj `shouldBe` [aesonQQ| {a:1, b:2} |]
-    context "Map" $
+        let o = [aesonQQ| {a:1, b:2, c:3} |]
+        keep ["a", "b", "z"] o `shouldBe` [aesonQQ| {a:1, b:2} |]
+    context "map" $
       it "replaces an array" $ do
         let arr = [aesonQQ| [{a:1}, {a:2}, {a:7}] |]
-        transform (Map $ Attr "a") arr `shouldBe` [aesonQQ| [1,2,7] |]
-    context "Obj" $
+        Data.Aeson.Transform.map (attr "a") arr `shouldBe`
+          [aesonQQ| [1,2,7] |]
+    context "obj" $
       it "builds an object with specified keys" $ do
-        let obj = [aesonQQ| {a:1} |]
-            result = transform
-              (Obj $ fromList [("foo", Attr "a") , ("bar", Attr "a")])
-              obj
+        let o = [aesonQQ| {a:1} |]
+            result = obj (fromList [("foo", attr "a") , ("bar", attr "a")]) o
         result `shouldBe` [aesonQQ| {foo: 1, bar: 1} |]
-    context "Merge" $
+    context "merge" $
       it "combines objects with previous value at a key winning against later value" $ do
-        let obj = [aesonQQ| { foo: {a:1, b:2}, bar: {b:3, c:4} } |]
-        transform  (Merge (Attr "foo") (Attr "bar")) obj `shouldBe`
+         let o = [aesonQQ| { foo: {a:1, b:2}, bar: {b:3, c:4} } |]
+         merge (attr "foo") (attr "bar") o `shouldBe`
           [aesonQQ| { a:1, b:2, c:4 } |]
