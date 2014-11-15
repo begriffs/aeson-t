@@ -32,7 +32,7 @@ Test-Suite spec
   Main-Is:              Spec.hs
   Build-Depends:        base
                       , aeson-t
-                      , hspec2
+                      , hspec == 2.*
                       , aeson == 0.8.*
                       , unordered-containers == 0.2.*
                       , text == 1.1.*
