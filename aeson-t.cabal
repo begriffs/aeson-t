@@ -1,5 +1,5 @@
 Name:                   aeson-t
-Version:                0.0.4
+Version:                0.0.5
 Author:                 Joe Nelson <cred+github@begriffs.com>
 Maintainer:             Joe Nelson <cred+github@begriffs.com>
 Category:               Data
@@ -20,7 +20,7 @@ Library
   Build-Depends:        base >= 4 && < 5
                       , aeson == 0.8.*
                       , unordered-containers == 0.2.*
-                      , text == 1.1.*
+                      , text >= 1.1 && < 2
                       , bytestring == 0.10.*
                       , vector == 0.10.*
 
@@ -35,7 +35,7 @@ Test-Suite spec
                       , hspec == 2.*
                       , aeson == 0.8.*
                       , unordered-containers == 0.2.*
-                      , text == 1.1.*
+                      , text >= 1.1 && < 2
                       , bytestring == 0.10.*
                       , vector == 0.10.*
                       , aeson-qq
